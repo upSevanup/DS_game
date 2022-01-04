@@ -36,6 +36,18 @@ class Lvl:
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
 
+    def vert_move_coll(self):
+        player = self.player.sprite
+        player.world_gravity()
+
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.y < 0:
+                    player.rect.top = sprite.rect.bottom
+                    player.direction.y = 0
+                elif player.direction.y > 0:
+                    player.rect.bottom = sprite.rect.top
+                    player.direction.y = 0
 
     def scroll_x(self):
         player = self.player.sprite
@@ -59,4 +71,5 @@ class Lvl:
 
         self.player.update()
         self.player.draw(self.display_surface)
+        self.vert_move_coll()
         self.horiz_move_coll()
