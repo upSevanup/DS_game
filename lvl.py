@@ -1,5 +1,5 @@
 import pygame
-from gg import Tile
+from tiles import Tile
 from map import tile_size, size_width
 from Player import Player
 
@@ -25,6 +25,18 @@ class Lvl:
                     player_sprite = Player((x, y))
                     self.player.add(player_sprite)
 
+    def horiz_move_coll(self):
+        player = self.player.sprite
+        player.rect.x += player.direction.x * player.speed
+
+        for sprite in self.tiles.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.x < 0:
+                    player.rect.left = sprite.rect.right
+                elif player.direction.x > 0:
+                    player.rect.right = sprite.rect.left
+
+
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.x
@@ -43,7 +55,8 @@ class Lvl:
     def run(self):
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
+        self.scroll_x()
 
         self.player.update()
         self.player.draw(self.display_surface)
-        self.scroll_x()
+        self.horiz_move_coll()
