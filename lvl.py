@@ -48,6 +48,8 @@ class Lvl:
                 elif player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0
+                    player.is_jump = True
+
 
     def scroll_x(self):
         player = self.player.sprite
@@ -55,14 +57,23 @@ class Lvl:
         direction_x = player.direction.x
 
         if player_x < size_width / 4 and direction_x < 0:
-            self.world_shift = 8
+            if player.is_run:
+                self.world_shift = 8
+            else:
+                self.world_shift = 4
             player.speed = 0
         elif player_x > size_width - (size_width / 4) and direction_x > 0:
-            self.world_shift = -8
+            if player.is_run:
+                self.world_shift = -8
+            else:
+                self.world_shift = -4
             player.speed = 0
         else:
             self.world_shift = 0
-            player.speed = 8
+            if player.is_run:
+                player.speed = 8
+            else:
+                player.speed = 4
 
     def run(self):
         self.tiles.update(self.world_shift)
