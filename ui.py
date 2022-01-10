@@ -4,14 +4,14 @@ class UI:
     def __init__(self, surface):
         self.display_surface = surface
 
-        #хп
+        # хп
         self.heal_bar = pygame.image.load("assets/UI/healandmanabar.png")
         self.heal_bar_top = (26, 19)
         self.st_bar_top = (26, 49)
         self.bar_max_width = 192
         self.bar_height = 10
 
-        #стамина
+        # стамина
         self.st_bar = pygame.image.load("assets/UI/healandmanabar.png")
 
         self.soul = pygame.image.load("assets/UI/soul.png")

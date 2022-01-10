@@ -21,7 +21,10 @@ class Lvl:
                 x = col_index * tile_size
                 y = row_index * tile_size
                 if cell == 'X':
-                    tile = Tile((x, y), tile_size)
+                    tile = Tile((x, y), 'earth.png')
+                    self.tiles.add(tile)
+                if cell == 'Z':
+                    tile = Tile((x, y), 'wall.png')
                     self.tiles.add(tile)
                 if cell == 'P':
                     player_sprite = Player((x, y))
@@ -71,10 +74,6 @@ class Lvl:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0
                     player.is_jump = True
-
-
-
-
 
     def scroll_x(self):
         player = self.player.sprite

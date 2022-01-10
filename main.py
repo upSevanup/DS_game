@@ -8,7 +8,7 @@ from ui import UI
 
 class Game:
     def __init__(self):
-        #атрибуты игры
+        # атрибуты игры
         self.hp_max = 100
         self.cur_hp = 0
         self.st_max = 100
@@ -49,20 +49,20 @@ game = Game()
 
 def start_screen():
     intro_text = [
-        ' НОВАЯ ИГРА',
-        'ПРОДОЛЖИТЬ',
-        '      ВЫХОД']
+        'START GAME',
+        '  CONTINUE',
+        '        EXIT']
 
-    fon = pygame.image.load('assets/BG/menu_bg.png')
+    fon = pygame.image.load('assets/BG/menu_bg.jpg')
     screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 50)
+    font = pygame.font.Font('assets/UI/AB.ttf', 50)
     text_coord = 500
     for line in intro_text:
         string_rendered = font.render(line, 1, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
         text_coord += 60
         intro_rect.top = text_coord
-        intro_rect.x = 680
+        intro_rect.x = 650
         text_coord += intro_rect.height
         screen.blit(string_rendered, intro_rect)
 
