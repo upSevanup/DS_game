@@ -73,6 +73,9 @@ class Lvl:
                     player.is_jump = True
 
 
+
+
+
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.x

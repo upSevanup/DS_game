@@ -12,13 +12,13 @@ class Mob(pygame.sprite.Sprite):
     def update(self, x_shift):
         self.rect.x += x_shift
 
-        while True:
+        """while True:
             self.direction.x = 1
             if изночальное положение - 240 == положение сейчас:
                 self.direction.x = 1
             if изночальное положение + 240 == положение сейчас:
                 self.direction.x = -1
-
+"""
 
 
 
