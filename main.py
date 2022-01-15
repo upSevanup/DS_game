@@ -12,6 +12,7 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 lvl = Lvl(level_map, screen)
 game = Game(screen)
+bg = pygame.image.load('assets/BG/bg.png')
 
 def start_screen():
     intro_text = [
@@ -51,7 +52,8 @@ while True:
             pygame.quit()
             sys.exit()
 
-    screen.fill('cyan')
+
+    screen.blit(bg, (0, 0))
     lvl.run()
     game.run()
 
