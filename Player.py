@@ -1,5 +1,6 @@
 import pygame
 from frame_cut import cut_sheet
+from inter import Game
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -25,6 +26,8 @@ class Player(pygame.sprite.Sprite):
         # статус
         self.status = 'Idle'
         self.is_right = True
+
+        self.st = Game((1600, 960))
 
     def get_input(self):
         keys = pygame.key.get_pressed()

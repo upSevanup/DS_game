@@ -1,42 +1,10 @@
 import pygame
 import sys
 import random
-import time
 from map import *
 from lvl import Lvl
 from ui import UI
-
-class Game:
-    def __init__(self):
-        # атрибуты игры
-        self.hp_max = 100
-        self.cur_hp = 0
-        self.st_max = 100
-        self.cur_st = 0
-        self.st = 100
-        self.souls = 3
-
-        # пользовательский интерфейс
-        self.ui = UI(screen)
-
-    def run(self):
-        self.ui.show_heal(self.cur_hp, self.hp_max)
-        self.ui.show_stam(self.cur_st, self.st_max)
-        self.ui.show_soul(self.souls)
-
-        if self.cur_st < 100:
-            self.cur_st += 0.2
-            time.sleep(0.001)
-        if self.cur_st > 100:
-            izl = self.cur_st - self.st_max
-            self.cur_st -= izl
-
-        if self.cur_hp == 0 and self.souls <= 5 and self.souls != 1:
-            self.souls -= 1
-            self.cur_hp = 100
-        elif self.cur_hp == 0 and self.souls >= 5:
-            self.souls -= random.randint(2, 4)
-            self.cur_hp = 100
+from inter import Game
 
 # создание окна
 pygame.init()
@@ -45,7 +13,7 @@ size = (size_width, size_height)
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 lvl = Lvl(level_map, screen)
-game = Game()
+game = Game(screen)
 
 def start_screen():
     intro_text = [

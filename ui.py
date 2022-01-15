@@ -3,16 +3,16 @@ import pygame
 class UI:
     def __init__(self, surface):
         self.display_surface = surface
+        self.bar_max_width = 192
+        self.bar_height = 10
 
         # хп
         self.heal_bar = pygame.image.load("assets/UI/healandmanabar.png")
         self.heal_bar_top = (26, 19)
-        self.st_bar_top = (26, 49)
-        self.bar_max_width = 192
-        self.bar_height = 10
 
         # стамина
         self.st_bar = pygame.image.load("assets/UI/healandmanabar.png")
+        self.st_bar_top = (26, 49)
 
         self.soul = pygame.image.load("assets/UI/soul.png")
         self.soul_rect = self.soul.get_rect(topleft=(70, 70))
@@ -25,9 +25,9 @@ class UI:
         heal_bar_rect = pygame.Rect((self.heal_bar_top), (cur_bar_width, self.bar_height))
         pygame.draw.rect(self.display_surface, '#dc4949', heal_bar_rect)
 
-    def show_stam(self, current, full):
+    def show_stam(self, curren, ful):
         self.display_surface.blit(self.st_bar, (20, 40))
-        cur_st_rat = current / full
+        cur_st_rat = curren / ful
         cur_bar_width1 = self.bar_max_width * cur_st_rat
         st_bar_rect = pygame.Rect((self.st_bar_top), (cur_bar_width1, self.bar_height))
         pygame.draw.rect(self.display_surface, 'blue', st_bar_rect)

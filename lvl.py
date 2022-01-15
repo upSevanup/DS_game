@@ -3,6 +3,9 @@ from tiles import Tile
 from map import tile_size, size_width
 from Player import Player
 from mobs import Mob
+from inter import Game
+from ui import UI
+import random
 
 class Lvl:
     def __init__(self, lvl_data, surface):
@@ -11,6 +14,8 @@ class Lvl:
         self.display_surface = surface
         self.setup_lvl(lvl_data)
         self.world_shift = 0
+        self.hp = Game(self.display_surface)
+        self.ui = UI(self.display_surface)
 
     def setup_lvl(self, layout):
         self.tiles = pygame.sprite.Group()
@@ -48,8 +53,12 @@ class Lvl:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
                     player.rect.left = sprite.rect.right
+                    self.hp.change_hp()
+                    print(self.hp.cur_hp)
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
+                    self.hp.change_hp()
+
 
     def vert_move_coll(self):
         player = self.player.sprite
@@ -68,12 +77,24 @@ class Lvl:
         for sprite in self.mob.sprites():
             if sprite.rect.colliderect(player.rect):
                 if player.direction.y < 0:
+                    self.hp.change_hp()
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
                 elif player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0
                     player.is_jump = True
+                    self.hp.change_hp()
+
+    def udar_mob(self):
+        for sprite in self.mob.sprites():
+            if sprite.rect.colliderect(player.rect):
+                if player.direction.x < 0:
+                    player.rect.left = sprite.rect.right
+                    print(self.hp.cur_hp)
+                elif player.direction.x > 0:
+                    player.rect.right = sprite.rect.left
+
 
     def scroll_x(self):
         player = self.player.sprite
@@ -82,22 +103,39 @@ class Lvl:
 
         if player_x < size_width / 4 and direction_x < 0:
             if player.is_run:
-                self.world_shift = 8
+                if self.hp.cur_st <= 100 and self.hp.cur_st > 0:
+                    self.world_shift = 8
+                    self.hp.regen_st = 0
+                    self.hp.regen()
+                else:
+                    self.hp.regen_st = 0.4
+                    self.world_shift = 4
             else:
                 self.world_shift = 4
             player.speed = 0
         elif player_x > size_width - (size_width / 4) and direction_x > 0:
             if player.is_run:
-                self.world_shift = -8
+                if self.hp.cur_st <= 100 and self.hp.cur_st > 0:
+                    self.world_shift = -8
+                    self.hp.regen_st = 0
+                    self.hp.regen()
+                else:
+                    self.hp.regen_st = 0.4
+                    self.world_shift = -4
             else:
                 self.world_shift = -4
             player.speed = 0
         else:
             self.world_shift = 0
             if player.is_run:
-                player.speed = 8
+                if self.hp.cur_st <= 100 and self.hp.cur_st > 0:
+                    player.speed = 8
+                    self.hp.regen()
+                else:
+                    player.speed = 4
             else:
                 player.speed = 4
+                self.hp.regen_st = 0.2
 
     def run(self):
         self.tiles.update(self.world_shift)
@@ -111,3 +149,9 @@ class Lvl:
 
         self.mob.draw(self.display_surface)
         self.mob.update(self.world_shift)
+
+        self.ui.show_heal(self.hp.cur_hp, self.hp.hp_max)
+        self.ui.show_stam(self.hp.cur_st, self.hp.st_max)
+        self.ui.show_soul(self.hp.souls)
+        self.hp.run()
+
