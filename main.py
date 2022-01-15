@@ -1,9 +1,7 @@
 import pygame
 import sys
-import random
 from map import *
 from lvl import Lvl
-from ui import UI
 from inter import Game
 
 # создание окна
@@ -26,7 +24,7 @@ def start_screen():
     font = pygame.font.Font('assets/UI/AB.ttf', 50)
     text_coord = 500
     for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
+        string_rendered = font.render(line, True, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
         text_coord += 60
         intro_rect.top = text_coord

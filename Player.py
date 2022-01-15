@@ -27,6 +27,9 @@ class Player(pygame.sprite.Sprite):
         self.status = 'Idle'
         self.is_right = True
 
+        # предметы
+        self.key = False
+
         self.st = Game((1600, 960))
 
     def get_input(self):
