@@ -1,18 +1,19 @@
 import pygame
 from frame_cut import cut_sheet
+# Анимация пока кривая, потом в фотошопе вырежу нормально!
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
 
         # анимация
-        self.animations = {'Mb_walk': [], 'Mb_attack': []}
+        self.animations = {'Mb_attack': []}
         self.mob_assets()
         self.frame_index = 0
         self.animation_speed = 0.15
 
         # mob
-        self.image = self.animations['Mb_walk'][self.frame_index]
+        self.image = self.animations['Mb_attack'][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
         self.direction = pygame.math.Vector2(0, 0)
 
@@ -48,9 +49,8 @@ class Mob(pygame.sprite.Sprite):
     def mob_assets(self):
         for anim in self.animations.keys():
 
-            # ДОДЕЛАТЬ КОГДА БУДЕТ АНИМАЦИЯ!!!!!!!!
-            row = None
-            col = None
+            row = 1
+            col = 8
 
             self.animations[anim] = cut_sheet(pygame.image.load(f'assets/mob/{anim}.png'), col, row)
 
@@ -70,7 +70,7 @@ class Mob(pygame.sprite.Sprite):
 
     def get_status(self):
         if self.direction.x != 0:
-            self.status = 'Mb_walk'
+            self.status = 'Mb_attack'
         else:
             self.status = 'Mb_attack'
 

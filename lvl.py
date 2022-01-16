@@ -6,6 +6,7 @@ from mobs import Mob
 from inter import Game
 from ui import UI
 from loot_home import Home
+from gates import Gate
 
 
 class Lvl:
@@ -24,6 +25,7 @@ class Lvl:
         self.player = pygame.sprite.GroupSingle()
         self.mob = pygame.sprite.Group()
         self.houses = pygame.sprite.Group()
+        self.gate = pygame.sprite.Group()
         for row_index, row in enumerate(layout):
             for col_index, cell in enumerate(row):
                 x = col_index * tile_size
@@ -34,6 +36,10 @@ class Lvl:
                     self.all_sprites.add(tile)
                 if cell == 'Z':
                     tile = Tile((x, y), 'wall.png')
+                    self.tiles.add(tile)
+                    self.all_sprites.add(tile)
+                if cell == 'O':
+                    tile = Tile((x, y), 'window.png')
                     self.tiles.add(tile)
                     self.all_sprites.add(tile)
                 if cell == 'P':
@@ -51,6 +57,10 @@ class Lvl:
                     house_sprite = Home((x, y), self.display_surface, is_key=True)
                     self.houses.add(house_sprite)
                     self.all_sprites.add(house_sprite)
+                if cell == 'U':
+                    gate_sprite = Gate((x, y), self.display_surface)
+                    self.gate.add(gate_sprite)
+                    self.all_sprites.add(gate_sprite)
 
     def horiz_move_coll(self):
         player = self.player.sprite
@@ -65,19 +75,35 @@ class Lvl:
                         player.rect.right = sprite.rect.left
             if self.mob.has(sprite):
                 if sprite.rect.colliderect(player.rect):
+                    sprite.speed = 0
+                    sprite.dir = 0
+                    sprite.is_right = not player.is_right
                     if player.direction.x < 0:
                         player.rect.left = sprite.rect.right
                         self.hp.change_hp()
-                        print(self.hp.cur_hp)
                     elif player.direction.x > 0:
                         player.rect.right = sprite.rect.left
                         self.hp.change_hp()
+                else:
+                    sprite.speed = 3
+                    if sprite.direction.x > 0:
+                        sprite.is_right = True
+                        sprite.dir = 1
+                    elif sprite.direction.x < 0:
+                        sprite.is_right = False
+                        sprite.dir = -1
             if self.houses.has(sprite):
                 if sprite.rect.colliderect(player.rect):
                     sprite.player_near = True
                     have_key = sprite.get_input()
                     if have_key:
                         player.key = True
+                else:
+                    sprite.player_near = False
+            if self.gate.has(sprite):
+                if sprite.rect.colliderect(player.rect):
+                    sprite.player_near = True
+                    sprite.open_door(player.key)
                 else:
                     sprite.player_near = False
 
@@ -96,14 +122,9 @@ class Lvl:
                         player.direction.y = 0
                         player.is_jump = True
             if self.mob.has(sprite):
-                if player.direction.y < 0:
-                    self.hp.change_hp()
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0
-                elif player.direction.y > 0:
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0
-                    player.is_jump = True
+                if sprite.rect.colliderect(player.rect):
+                    if player.direction.y > 0:
+                        player.is_jump = True
                     self.hp.change_hp()
 
     def udar_mob(self):
@@ -162,6 +183,7 @@ class Lvl:
     def run(self):
         self.tiles.update(self.world_shift)
         self.houses.update(self.world_shift)
+        self.gate.update(self.world_shift)
         self.mob.update(self.world_shift)
         self.all_sprites.draw(self.display_surface)
         self.scroll_x()

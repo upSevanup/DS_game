@@ -12,7 +12,7 @@ class Game():
         self.souls = 10
         self.regen_st = 0.2
         self.regenf = 0.4
-        self.regen_hp = 0.15
+        self.regen_hp = 0.05
 
         # пользовательский интерфейс
         self.ui = UI(surface)

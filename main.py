@@ -12,7 +12,10 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 lvl = Lvl(level_map, screen)
 game = Game(screen)
-bg = pygame.image.load('assets/BG/bg.png')
+
+# BG
+bg_1lvl = pygame.image.load('assets/BG/bg.png')
+# мб проще будет передавать в функцию сразу путь, чем кучу переменных делать но пока хз
 
 def start_screen():
     intro_text = [
@@ -42,20 +45,25 @@ def start_screen():
                 return
         pygame.display.flip()
 
+def game_loop(bg):
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == LVL_COMPITED:
+                return
 
+        screen.blit(bg, (0, 0))
+        lvl.run()
+        game.run()
+
+        pygame.display.update()
+        clock.tick(60)
+
+# игра
 start_screen()
+game_loop(bg_1lvl)
+# проверка работоспособности
+print("That's right! I win!!!")
 
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-
-    screen.blit(bg, (0, 0))
-    lvl.run()
-    game.run()
-
-    pygame.display.update()
-    clock.tick(60)
