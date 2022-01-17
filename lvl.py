@@ -75,6 +75,7 @@ class Lvl:
                         player.rect.right = sprite.rect.left
             if self.mob.has(sprite):
                 if sprite.rect.colliderect(player.rect):
+                    player.is_attack = sprite.udarmob()
                     sprite.speed = 0
                     sprite.dir = 0
                     sprite.is_right = not player.is_right
@@ -94,7 +95,6 @@ class Lvl:
                         sprite.dir = -1
             if self.houses.has(sprite):
                 if sprite.rect.colliderect(player.rect):
-                    sprite.player_near = True
                     have_key = sprite.get_input()
                     if have_key:
                         player.key = True
@@ -102,7 +102,6 @@ class Lvl:
                     sprite.player_near = False
             if self.gate.has(sprite):
                 if sprite.rect.colliderect(player.rect):
-                    sprite.player_near = True
                     sprite.open_door(player.key)
                 else:
                     sprite.player_near = False

@@ -10,12 +10,10 @@ pygame.display.set_caption('ECLIPSE: Curse of the Dark Sun')
 size = (size_width, size_height)
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-lvl = Lvl(level_map, screen)
 game = Game(screen)
 
-# BG
-bg_1lvl = pygame.image.load('assets/BG/bg.png')
-# мб проще будет передавать в функцию сразу путь, чем кучу переменных делать но пока хз
+# Bg
+bg_lvl_1 = pygame.image.load('assets/BG/bg1.png')
 
 def start_screen():
     intro_text = [
@@ -52,7 +50,9 @@ def game_loop(bg):
                 pygame.quit()
                 sys.exit()
             if event.type == LVL_COMPITED:
-                return
+                return 'C'
+            if event.type == PLAYER_DEAD:
+                return 'D'
 
         screen.blit(bg, (0, 0))
         lvl.run()
@@ -63,7 +63,9 @@ def game_loop(bg):
 
 # игра
 start_screen()
-game_loop(bg_1lvl)
+level_map = load_level('lvls/lvl_1.map')
+lvl = Lvl(level_map, screen)
+check = game_loop(bg_lvl_1)
 # проверка работоспособности
 print("That's right! I win!!!")
 

@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
         # анимация
-        self.animations = {'Idle': [], 'Run': [], 'Jump': []}
+        self.animations = {'Idle': [], 'Run': [], 'Jump': [], 'Attack': []}
         self.character_assets()
         self.frame_index = 0
         self.animation_speed = 0.15
@@ -26,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         # статус
         self.status = 'Idle'
         self.is_right = True
+        self.is_attack = False
 
         # предметы
         self.key = False
@@ -44,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-        if keys[pygame.K_UP] or keys[pygame.K_w] or keys[pygame.K_SPACE]:
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
             self.jump()
 
         if keys[pygame.K_LSHIFT]:
@@ -52,13 +53,16 @@ class Player(pygame.sprite.Sprite):
         else:
             self.is_run = False
 
+        if keys[pygame.K_SPACE]:
+            self.is_attack = True
+
     def character_assets(self):
         for anim in self.animations.keys():
-            if anim != 'Attacks':
+            if anim != 'Attack':
                 row = 4
                 col = 2
             else:
-                row = 5
+                row = 1
                 col = 8
 
             self.animations[anim] = cut_sheet(pygame.image.load(f'assets/character/{anim}.png'), col, row)
@@ -81,6 +85,10 @@ class Player(pygame.sprite.Sprite):
         if self.direction.y < 0:
             self.animation_speed = 0.01
             self.status = 'Jump'
+        elif self.is_attack:
+            self.animation_speed = 0.15
+            self.status = 'Attack'
+            self.is_attack = False
         else:
             self.animation_speed = 0.15
             if self.direction.x != 0:

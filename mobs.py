@@ -7,13 +7,13 @@ class Mob(pygame.sprite.Sprite):
         super().__init__()
 
         # анимация
-        self.animations = {'Mb_attack': []}
+        self.animations = {'Mb_walk': [], 'Mb_attack': []}
         self.mob_assets()
         self.frame_index = 0
-        self.animation_speed = 0.15
+        self.animation_speed = 0.1
 
         # mob
-        self.image = self.animations['Mb_attack'][self.frame_index]
+        self.image = self.animations['Mb_walk'][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
         self.direction = pygame.math.Vector2(0, 0)
 
@@ -31,7 +31,12 @@ class Mob(pygame.sprite.Sprite):
         self.mob_hp = 100
 
     def udarmob(self):
-        self.mob_hp -= 20
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            self.mob_hp -= 1
+            if self.mob_hp <= 0:
+                self.kill()
+            return True
 
     def what_direction(self):
         self.dist += self.dir
@@ -49,8 +54,12 @@ class Mob(pygame.sprite.Sprite):
     def mob_assets(self):
         for anim in self.animations.keys():
 
-            row = 1
-            col = 8
+            if anim == 'Mb_attack':
+                row = 1
+                col = 8
+            else:
+                row = 1
+                col = 6
 
             self.animations[anim] = cut_sheet(pygame.image.load(f'assets/mob/{anim}.png'), col, row)
 
@@ -69,8 +78,8 @@ class Mob(pygame.sprite.Sprite):
             self.image = flip_img
 
     def get_status(self):
-        if self.direction.x != 0:
-            self.status = 'Mb_attack'
+        if self.speed != 0:
+            self.status = 'Mb_walk'
         else:
             self.status = 'Mb_attack'
 

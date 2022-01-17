@@ -34,6 +34,6 @@ class UI:
 
     def show_soul(self, amout):
         self.display_surface.blit(self.soul, (20, 70))
-        soul_am_surf = self.font.render(str(amout), False, '#33323d')
-        soul_am_rect = soul_am_surf.get_rect(midleft = (self.soul_rect.right + 4, self.soul_rect.centery))
+        soul_am_surf = self.font.render(str(amout), False, 'white')
+        soul_am_rect = soul_am_surf.get_rect(midleft=(self.soul_rect.right + 4, self.soul_rect.centery))
         self.display_surface.blit(soul_am_surf, soul_am_rect)
