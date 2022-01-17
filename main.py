@@ -16,9 +16,10 @@ music = pygame.mixer.Sound('assets/music/secunda.mp3')
 music.set_volume(0.1)
 nachalo = pygame.mixer.Sound('assets/music/dragon.mp3')
 nachalo.set_volume(0.1)
+
 # BG
 bg_lvl_1 = pygame.image.load('assets/BG/bg1.png')
-# мб проще будет передавать в функцию сразу путь, чем кучу переменных делать но пока хз
+bg_lvl_2 = pygame.image.load('assets/BG/bg2.png')
 
 def start_screen():
     new_game = ['START GAME']
@@ -96,5 +97,9 @@ start_screen()
 level_map = load_level('lvls/lvl_1.map')
 lvl = Lvl(level_map, screen)
 check = game_loop(bg_lvl_1)
-# проверка работоспособности
-print("That's right! I win!!!")
+if check == 'C':
+    level_map = load_level('lvls/lvl_2.map')
+    lvl = Lvl(level_map, screen)
+    check = game_loop(bg_lvl_2)
+else:
+    print("That's right! You loose!!!")

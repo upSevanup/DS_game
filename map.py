@@ -10,7 +10,7 @@ size_width = 1600
 size_height = 960
 
 # события
-LVL_COMPITED = pygame.USEREVENT
+LVL_COMPITED = pygame.USEREVENT + 1
 lvl_comp = pygame.event.Event(LVL_COMPITED)
 
 PLAYER_DEAD = pygame.USEREVENT
