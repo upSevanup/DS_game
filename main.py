@@ -3,6 +3,7 @@ import sys
 from map import *
 from lvl import Lvl
 from inter import Game
+import os
 
 # создание окна
 pygame.init()
@@ -12,9 +13,9 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 game = Game(screen)
 music = pygame.mixer.Sound('assets/music/secunda.mp3')
-music.set_volume(0.3)
+music.set_volume(0.1)
 nachalo = pygame.mixer.Sound('assets/music/dragon.mp3')
-nachalo.set_volume(0.3)
+nachalo.set_volume(0.1)
 # BG
 bg_lvl_1 = pygame.image.load('assets/BG/bg1.png')
 # мб проще будет передавать в функцию сразу путь, чем кучу переменных делать но пока хз
@@ -24,7 +25,6 @@ def start_screen():
     cn_exit = ['        EXIT']
 
     fon = pygame.image.load('assets/BG/menu_bg.jpg')
-    screen.blit(fon, (0, 0))
     font = pygame.font.Font('assets/UI/AB.ttf', 50)
     text_new_game = 500
     text_exit = 650
@@ -38,14 +38,20 @@ def start_screen():
         text_new_game += intro_rect.height
         screen.blit(string_rendered, intro_rect)
     for line in cn_exit:
-        string_rendered = font.render(line, True, pygame.Color('white'))
-        intro_rect = string_rendered.get_rect()
+        string_rendered1 = font.render(line, True, pygame.Color('white'))
+        intro_rect1 = string_rendered1.get_rect()
         text_exit += 60
-        intro_rect.top = text_exit
-        intro_rect.x = 650
-        text_exit += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
+        intro_rect1.top = text_exit
+        intro_rect1.x = 650
+        text_exit += intro_rect1.height
+        screen.blit(string_rendered1, intro_rect1)
     nachalo.play(-1)
+
+    all_sprites = pygame.sprite.Group()
+    cursor = pygame.sprite.Sprite(all_sprites)
+    cursor.image = pygame.image.load('assets/UI/arrow.png')
+    cursor.rect = cursor.image.get_rect()
+    pygame.mouse.set_visible(False)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -58,7 +64,14 @@ def start_screen():
                 if x + 740 < event.pos[0] < x + 850 and y + 700 < event.pos[1] < y + 780:
                     pygame.quit()
                     sys.exit()
-        pygame.display.flip()
+            if event.type == pygame.MOUSEMOTION:
+                cursor.rect.topleft = event.pos
+            screen.blit(fon, (0, 0))
+            screen.blit(string_rendered, intro_rect)
+            screen.blit(string_rendered1, intro_rect1)
+            if pygame.mouse.get_focused():
+                all_sprites.draw(screen)
+            pygame.display.flip()
 
 def game_loop(bg):
     while True:
@@ -74,7 +87,7 @@ def game_loop(bg):
         screen.blit(bg, (0, 0))
         lvl.run()
         game.run()
-
+        music.play(-1)
         pygame.display.update()
         clock.tick(60)
 
