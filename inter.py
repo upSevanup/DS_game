@@ -47,7 +47,3 @@ class Game():
             self.cur_hp -= izl1
         if self.souls == 0:
             pygame.event.post(pl_d)
-
-
-
-

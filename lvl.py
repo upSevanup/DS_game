@@ -196,4 +196,3 @@ class Lvl:
         self.ui.show_stam(self.hp.cur_st, self.hp.st_max)
         self.ui.show_soul(self.hp.souls)
         self.hp.run()
-

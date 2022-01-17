@@ -90,8 +90,3 @@ class Mob(pygame.sprite.Sprite):
 
         self.get_status()
         self.animate()
-
-
-
-
-
