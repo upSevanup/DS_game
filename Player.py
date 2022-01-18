@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.is_jump = False
         self.speed = 4
         self.gravity = 0.8
-        self.jump_height = -16
+        self.jump_height = -12
 
         # статус
         self.status = 'Idle'

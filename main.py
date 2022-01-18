@@ -74,6 +74,20 @@ def start_screen():
                 all_sprites.draw(screen)
             pygame.display.flip()
 
+def dead_screen():
+    fon = pygame.image.load('assets/BG/Screen_of_the_dead.png')
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or \
+                    event.type == pygame.KEYDOWN or \
+                    event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.quit()
+                sys.exit()
+
+        screen.blit(fon, (0, 0))
+        pygame.display.flip()
+
 def game_loop(bg):
     while True:
         for event in pygame.event.get():
@@ -102,4 +116,4 @@ if check == 'C':
     lvl = Lvl(level_map, screen)
     check = game_loop(bg_lvl_2)
 else:
-    print("That's right! You loose!!!")
+    dead_screen()
