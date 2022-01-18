@@ -19,6 +19,7 @@ class Lvl:
         self.hp = Game(self.display_surface)
         self.ui = UI(self.display_surface)
 
+    # поиск текстур
     def setup_lvl(self, layout):
         self.all_sprites = pygame.sprite.Group()
         self.tiles = pygame.sprite.Group()
@@ -62,6 +63,7 @@ class Lvl:
                     self.gate.add(gate_sprite)
                     self.all_sprites.add(gate_sprite)
 
+    # горизонтальная колизия
     def horiz_move_coll(self):
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speed
@@ -106,6 +108,7 @@ class Lvl:
                 else:
                     sprite.player_near = False
 
+    # вертикальная коллизия
     def vert_move_coll(self):
         player = self.player.sprite
         player.world_gravity()
@@ -126,6 +129,7 @@ class Lvl:
                         player.is_jump = True
                     self.hp.change_hp()
 
+    # удар моба
     def udar_mob(self):
         player = self.player.sprite
 
@@ -137,7 +141,7 @@ class Lvl:
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left
 
-
+    # камера
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.x

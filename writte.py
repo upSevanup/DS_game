@@ -1,5 +1,6 @@
 import pygame
 
+
 def write(text, t_c, r_c, surfase):
     font = pygame.font.Font('assets/UI/AB.ttf', 20)
     text_coord = t_c

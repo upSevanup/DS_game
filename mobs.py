@@ -2,6 +2,7 @@ import pygame
 from frame_cut import cut_sheet
 # Анимация пока кривая, потом в фотошопе вырежу нормально!
 
+
 class Mob(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -12,7 +13,7 @@ class Mob(pygame.sprite.Sprite):
         self.frame_index = 0
         self.animation_speed = 0.1
 
-        # mob
+        # моб
         self.image = self.animations['Mb_walk'][self.frame_index]
         self.rect = self.image.get_rect(topleft=pos)
         self.direction = pygame.math.Vector2(0, 0)
@@ -30,6 +31,7 @@ class Mob(pygame.sprite.Sprite):
         # хп
         self.mob_hp = 100
 
+    # удар игрока
     def udarmob(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
@@ -38,6 +40,7 @@ class Mob(pygame.sprite.Sprite):
                 self.kill()
             return True
 
+    # движение моба
     def what_direction(self):
         self.dist += self.dir
         if self.dist >= 80:
@@ -51,6 +54,7 @@ class Mob(pygame.sprite.Sprite):
             self.dir = 1
             self.is_right = True
 
+    # анимация
     def mob_assets(self):
         for anim in self.animations.keys():
 
@@ -63,6 +67,7 @@ class Mob(pygame.sprite.Sprite):
 
             self.animations[anim] = cut_sheet(pygame.image.load(f'assets/mob/{anim}.png'), col, row)
 
+    # анимация
     def animate(self):
         animation = self.animations[self.status]
 
@@ -77,6 +82,7 @@ class Mob(pygame.sprite.Sprite):
             flip_img = pygame.transform.flip(image, True, False)
             self.image = flip_img
 
+    # статус
     def get_status(self):
         if self.speed != 0:
             self.status = 'Mb_walk'

@@ -2,6 +2,7 @@ import pygame
 from writte import write
 from map import lvl_comp
 
+
 class Gate(pygame.sprite.Sprite):
     def __init__(self, pos, surfase):
         super().__init__()
@@ -10,6 +11,7 @@ class Gate(pygame.sprite.Sprite):
 
         self.screen = surfase
 
+    # открывание двери
     def open_door(self, is_key):
         keys = pygame.key.get_pressed()
 

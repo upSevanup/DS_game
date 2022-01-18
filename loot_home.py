@@ -1,5 +1,7 @@
 import pygame
 from writte import write
+
+
 class Home(pygame.sprite.Sprite):
     def __init__(self, pos, surface, is_key=False):
         super().__init__()
@@ -10,6 +12,7 @@ class Home(pygame.sprite.Sprite):
         self.pos = pos
         self.screen = surface
 
+    # взаимодействие с домом
     def get_input(self):
         keys = pygame.key.get_pressed()
         if not keys[pygame.K_e]:

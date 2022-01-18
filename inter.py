@@ -3,6 +3,7 @@ from ui import UI
 import random
 from map import pl_d
 
+
 class Game():
     def __init__(self, surface):
         # атрибуты игры
@@ -18,11 +19,13 @@ class Game():
         # пользовательский интерфейс
         self.ui = UI(surface)
 
+    # удар мобов
     def change_hp(self):
         self.cur_hp -= 0.8
 
+    # регенерация стамины
     def regen(self):
-        if self.cur_st <= 100 and self.cur_st > 0:
+        if self.cur_st <= 100:
             self.cur_st -= self.regenf
             self.regen_st = 0
         else:
@@ -34,10 +37,10 @@ class Game():
         if self.cur_st > 100:
             izl = self.cur_st - self.st_max
             self.cur_st -= izl
-        if self.cur_hp > 0 and self.cur_hp < 1 and self.souls <= 3 and self.souls != 0:
+        if self.cur_hp < 1 and self.souls <= 3 and self.souls != 0:
             self.souls -= 1
             self.cur_hp = 100
-        elif self.cur_hp > 0 and self.cur_hp < 1 and self.souls >= 3:
+        elif self.cur_hp < 1 and self.souls >= 3:
             self.souls -= random.randint(1, 2)
             self.cur_hp = 100
         if self.cur_hp < 100:

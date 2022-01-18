@@ -1,5 +1,6 @@
 import pygame
 
+
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, texture):
         super().__init__()

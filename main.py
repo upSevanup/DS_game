@@ -1,9 +1,7 @@
-import pygame
 import sys
 from map import *
 from lvl import Lvl
 from inter import Game
-import os
 
 # создание окна
 pygame.init()
@@ -21,6 +19,8 @@ nachalo.set_volume(0.1)
 bg_lvl_1 = pygame.image.load('assets/BG/bg1.png')
 bg_lvl_2 = pygame.image.load('assets/BG/bg2.png')
 
+
+# начальное окно
 def start_screen():
     new_game = ['START GAME']
     cn_exit = ['        EXIT']
@@ -88,6 +88,8 @@ def dead_screen():
         screen.blit(fon, (0, 0))
         pygame.display.flip()
 
+
+# игра
 def game_loop(bg):
     while True:
         for event in pygame.event.get():
@@ -105,6 +107,7 @@ def game_loop(bg):
         music.play(-1)
         pygame.display.update()
         clock.tick(60)
+
 
 # игра
 start_screen()

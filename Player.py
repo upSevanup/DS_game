@@ -2,6 +2,7 @@ import pygame
 from frame_cut import cut_sheet
 from inter import Game
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -33,6 +34,7 @@ class Player(pygame.sprite.Sprite):
 
         self.st = Game((1600, 960))
 
+    # принятие кнопок + передвижение
     def get_input(self):
         keys = pygame.key.get_pressed()
 
@@ -56,6 +58,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             self.is_attack = True
 
+    #анимация
     def character_assets(self):
         for anim in self.animations.keys():
             if anim != 'Attack':
@@ -67,6 +70,7 @@ class Player(pygame.sprite.Sprite):
 
             self.animations[anim] = cut_sheet(pygame.image.load(f'assets/character/{anim}.png'), col, row)
 
+    # анимация
     def animate(self):
         animation = self.animations[self.status]
 
@@ -81,6 +85,7 @@ class Player(pygame.sprite.Sprite):
             flip_img = pygame.transform.flip(image, True, False)
             self.image = flip_img
 
+    # статус
     def get_status(self):
         if self.direction.y < 0:
             self.animation_speed = 0.01
@@ -96,10 +101,12 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.status = 'Idle'
 
+    # гравитация
     def world_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
 
+    # прыжок
     def jump(self):
         if self.is_jump:
             self.direction.y = self.jump_height
